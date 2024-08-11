@@ -35,6 +35,8 @@
         toggleContainerRef.current.classList.toggle("dark", darkMode);
       }, [darkMode]);
 
+      if(darkMode) document.body.classList.toggle("dark-mode", true)
+
       return h(
         "div",
         null,
