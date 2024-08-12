@@ -19,31 +19,31 @@
     const { h, render } = preact;
     const { useState, useEffect, useRef } = preactHooks;
 
-    const ENTER_KEY_CODE = 13
+    const ENTER_KEY_CODE = 13;
 
     const App = () => {
       const [text, setText] = useState(localStorage.getItem("text") || "");
       const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
       const toggleContainerRef = useRef(null);
-      const textRef = useRef(null)
+      const textRef = useRef(null);
 
       const handleTextEvents = (event) => {
-        let newText = event.target.value
+        let newText = event.target.value;
 
         // enables the use of tab while typing
         // use shift + tab for default behavior
-        if(event.key === "Tab" && !event.shiftKey) {
-          event.preventDefault()
-          newText += "\t"
+        if (event.key === "Tab" && !event.shiftKey) {
+          event.preventDefault();
+          newText += "\t";
         }
 
-        setText(newText)
-      }
+        setText(newText);
+      };
 
       const toggleDarkMode = (event) => {
-        if (event.type === "keydown" && event.keyCode !== ENTER_KEY_CODE) return
+        if (event.type === "keydown" && event.keyCode !== ENTER_KEY_CODE) return;
         setDarkMode(!darkMode);
-      }
+      };
 
       useEffect(() => {
         localStorage.setItem("text", text);
@@ -55,7 +55,7 @@
         toggleContainerRef.current.classList.toggle("dark", darkMode);
       }, [darkMode]);
 
-      if(darkMode) document.body.classList.toggle("dark-mode", true)
+      if (darkMode) document.body.classList.toggle("dark-mode", true);
 
       return h(
         "div",
