@@ -67,6 +67,7 @@ textarea {
   text-align: center;
   transition: opacity 0.3s;
   opacity: 1;
+  user-select: none;
 }
 .icon.sun {
   left: 2px;
