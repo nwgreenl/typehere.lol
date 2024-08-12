@@ -23,6 +23,7 @@
 
     const App = () => {
       const [text, setText] = useState(localStorage.getItem("text") || "");
+      const [cursorPos, setCursorPos] = useState(text.length);
       const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
       const toggleContainerRef = useRef(null);
       const textRef = useRef(null);
@@ -34,7 +35,10 @@
         // use shift + tab for default behavior
         if (event.key === "Tab" && !event.shiftKey) {
           event.preventDefault();
-          newText += "\t";
+
+          const { selectionStart, selectionEnd } = event.target;
+          newText = newText.substring(0, selectionStart) + "\t" + newText.substring(selectionEnd);
+          setCursorPos(selectionStart + 1);
         }
 
         setText(newText);
@@ -48,6 +52,10 @@
       useEffect(() => {
         localStorage.setItem("text", text);
       }, [text]);
+
+      useEffect(() => {
+          textRef.current.setSelectionRange(cursorPos, cursorPos);
+      }, [cursorPos]);
 
       useEffect(() => {
         localStorage.setItem("darkMode", darkMode);
