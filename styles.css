@@ -34,7 +34,7 @@ textarea {
   width: 50px;
   height: 25px;
   border-radius: 25px;
-  background-color: #4CAF50;
+  background-color: #ffc100;
   cursor: pointer;
   transition: background-color 0.3s, opacity 0.3s;
   opacity: 0.33;
@@ -53,7 +53,7 @@ textarea {
   transition: transform 0.3s;
 }
 .toggle-container.dark {
-  background-color: #5B0082;
+  background-color: #3d007c;
 }
 .toggle-container.dark .toggle-circle {
   transform: translateX(25px);
