@@ -39,7 +39,7 @@ textarea {
   transition: background-color 0.3s, opacity 0.3s;
   opacity: 0.33;
 }
-.toggle-container:hover {
+.toggle-container:hover, .toggle-container:focus {
   opacity: 1;
 }
 .toggle-circle {
