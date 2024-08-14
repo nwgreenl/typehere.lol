@@ -53,10 +53,10 @@ textarea {
   background-color: white;
   transition: transform 0.3s;
 }
-.toggle-container.dark {
+.toggle-container.dark-mode {
   background-color: #3d007c;
 }
-.toggle-container.dark .toggle-circle {
+.toggle-container.dark-mode .toggle-circle {
   transform: translateX(25px);
   background-color: black;
 }
@@ -77,9 +77,9 @@ textarea {
   right: 2px;
   opacity: 0;
 }
-.toggle-container.dark .icon.sun {
+.toggle-container.dark-mode .icon.sun {
   opacity: 0;
 }
-.toggle-container.dark .icon.moon {
+.toggle-container.dark-mode .icon.moon {
   opacity: 1;
 }

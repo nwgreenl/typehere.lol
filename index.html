@@ -20,6 +20,7 @@
     const { useState, useEffect, useRef } = preactHooks;
 
     const ENTER_KEY_CODE = 13;
+    const DARK_MODE_CLASS = "dark-mode";
     class LocalStorageKey {
       static DARK_MODE = "darkMode";
       static TEXT = "text";
@@ -63,11 +64,15 @@
 
       useEffect(() => {
         localStorage.setItem(LocalStorageKey.DARK_MODE, darkMode);
-        document.body.classList.toggle("dark-mode", darkMode);
-        toggleContainerRef.current.classList.toggle("dark", darkMode);
+        document.body.classList.toggle(DARK_MODE_CLASS, darkMode);
+        toggleContainerRef.current.classList.toggle(DARK_MODE_CLASS, darkMode);
       }, [darkMode]);
 
-      if (darkMode) document.body.classList.toggle("dark-mode", true);
+      let toggleContainerClass = "toggle-container";
+      if (darkMode) {
+        toggleContainerClass += ` ${DARK_MODE_CLASS}`;
+        document.body.classList.toggle(DARK_MODE_CLASS, true);
+      }
 
       return h(
         "div",
@@ -85,7 +90,7 @@
           "div",
           {
             ref: toggleContainerRef,
-            class: "toggle-container" + (darkMode ? " dark" : ""),
+            class: toggleContainerClass,
             onClick: toggleDarkMode,
             onKeyDown: toggleDarkMode,
             role: "button",
