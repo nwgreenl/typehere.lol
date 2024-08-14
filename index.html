@@ -20,11 +20,15 @@
     const { useState, useEffect, useRef } = preactHooks;
 
     const ENTER_KEY_CODE = 13;
+    class LocalStorageKey {
+      static DARK_MODE = "darkMode";
+      static TEXT = "text";
+    };
 
     const App = () => {
-      const [text, setText] = useState(localStorage.getItem("text") || "");
+      const [text, setText] = useState(localStorage.getItem(LocalStorageKey.TEXT) || "");
       const [cursorPos, setCursorPos] = useState(text.length);
-      const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
+      const [darkMode, setDarkMode] = useState(localStorage.getItem(LocalStorageKey.DARK_MODE) === "true");
       const toggleContainerRef = useRef(null);
       const textRef = useRef(null);
 
@@ -50,7 +54,7 @@
       };
 
       useEffect(() => {
-        localStorage.setItem("text", text);
+        localStorage.setItem(LocalStorageKey.TEXT, text);
       }, [text]);
 
       useEffect(() => {
@@ -58,7 +62,7 @@
       }, [cursorPos]);
 
       useEffect(() => {
-        localStorage.setItem("darkMode", darkMode);
+        localStorage.setItem(LocalStorageKey.DARK_MODE, darkMode);
         document.body.classList.toggle("dark-mode", darkMode);
         toggleContainerRef.current.classList.toggle("dark", darkMode);
       }, [darkMode]);
