@@ -62,7 +62,9 @@
       }, [text]);
 
       useEffect(() => {
-          textRef.current.setSelectionRange(cursorPos, cursorPos);
+        textRef.current.style.caretColor = "transparent";
+        textRef.current.setSelectionRange(cursorPos, cursorPos);
+        textRef.current.style.caretColor = "auto";
       }, [cursorPos]);
 
       useEffect(() => {
