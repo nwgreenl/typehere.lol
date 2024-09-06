@@ -19,8 +19,11 @@
     const { h, render } = preact;
     const { useState, useEffect, useRef } = preactHooks;
 
-    const ENTER_KEY_CODE = 13;
     const DARK_MODE_CLASS = "dark-mode";
+    class EventKeyCode {
+      static ENTER = 13;
+      static TAB = 9;
+    };
     class LocalStorageKey {
       static DARK_MODE = "darkMode";
       static TEXT = "text";
@@ -38,7 +41,7 @@
 
         // enables the use of tab while typing
         // use shift + tab for default behavior
-        if (event.key === "Tab" && !event.shiftKey) {
+        if (event.keyCode === EventKeyCode.TAB && !event.shiftKey) {
           event.preventDefault();
 
           const { selectionStart, selectionEnd } = event.target;
@@ -50,7 +53,7 @@
       };
 
       const toggleDarkMode = (event) => {
-        if (event.type === "keydown" && event.keyCode !== ENTER_KEY_CODE) return;
+        if (event.type === "keydown" && event.keyCode !== EventKeyCode.ENTER) return;
         setDarkMode(!darkMode);
       };
 
