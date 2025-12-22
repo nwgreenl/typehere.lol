@@ -3,112 +3,112 @@
 <!-- https://buymeacoffee.com/nwgreenl -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>type here</title>
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://unpkg.com/preact@latest/dist/preact.min.js"></script>
-  <script src="https://unpkg.com/preact@latest/hooks/dist/hooks.umd.js"></script>
-</head>
-<body>
-  <div id="app"></div>
-  <script>
-    const { h, render } = preact;
-    const { useState, useEffect, useRef } = preactHooks;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>type here</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/preact@latest/dist/preact.min.js"></script>
+    <script src="https://unpkg.com/preact@latest/hooks/dist/hooks.umd.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const { h, render } = preact;
+      const { useState, useEffect, useRef } = preactHooks;
 
-    const DARK_MODE_CLASS = "dark-mode";
-    class EventKeyCode {
-      static ENTER = 13;
-      static TAB = 9;
-    };
-    class LocalStorageKey {
-      static DARK_MODE = "darkMode";
-      static TEXT = "text";
-    };
-
-    const App = () => {
-      const [text, setText] = useState(localStorage.getItem(LocalStorageKey.TEXT) || "");
-      const [cursorPos, setCursorPos] = useState(text.length);
-      const [darkMode, setDarkMode] = useState(localStorage.getItem(LocalStorageKey.DARK_MODE) === "true");
-      const toggleContainerRef = useRef(null);
-      const textRef = useRef(null);
-
-      const handleTextEvents = (event) => {
-        let newText = event.target.value;
-
-        // enables the use of tab while typing
-        // use shift + tab for default behavior
-        if (event.keyCode === EventKeyCode.TAB && !event.shiftKey) {
-          event.preventDefault();
-
-          const { selectionStart, selectionEnd } = event.target;
-          newText = newText.substring(0, selectionStart) + "\t" + newText.substring(selectionEnd);
-          setCursorPos(selectionStart + 1);
-        }
-
-        setText(newText);
-      };
-
-      const toggleDarkMode = (event) => {
-        if (event.type === "keydown" && event.keyCode !== EventKeyCode.ENTER) return;
-        setDarkMode(!darkMode);
-      };
-
-      useEffect(() => {
-        localStorage.setItem(LocalStorageKey.TEXT, text);
-      }, [text]);
-
-      useEffect(() => {
-        textRef.current.style.caretColor = "transparent";
-        textRef.current.setSelectionRange(cursorPos, cursorPos);
-        textRef.current.style.caretColor = "auto";
-      }, [cursorPos]);
-
-      useEffect(() => {
-        localStorage.setItem(LocalStorageKey.DARK_MODE, darkMode);
-        document.body.classList.toggle(DARK_MODE_CLASS, darkMode);
-        toggleContainerRef.current.classList.toggle(DARK_MODE_CLASS, darkMode);
-      }, [darkMode]);
-
-      let toggleContainerClass = "toggle-container";
-      if (darkMode) {
-        toggleContainerClass += ` ${DARK_MODE_CLASS}`;
-        document.body.classList.toggle(DARK_MODE_CLASS, true);
+      const DARK_MODE_CLASS = "dark-mode";
+      class EventKeyCode {
+        static ENTER = 13;
+        static TAB = 9;
+      }
+      class LocalStorageKey {
+        static DARK_MODE = "darkMode";
+        static TEXT = "text";
       }
 
-      return h(
-        "div",
-        null,
-        h("textarea", {
-          ref: textRef,
-          value: text,
-          autofocus: true,
-          onInput: handleTextEvents,
-          onKeyDown: handleTextEvents,
-          tabindex: "1",
-          placeholder: "type here...",
-        }),
-        h(
-          "div",
-          {
-            ref: toggleContainerRef,
-            class: toggleContainerClass,
-            onClick: toggleDarkMode,
-            onKeyDown: toggleDarkMode,
-            role: "button",
-            tabindex: "2",
-          },
-          h("div", { class: "toggle-circle" }),
-          h("div", { class: "icon sun" }, "☀️"),
-          h("div", { class: "icon moon" }, "🌙"),
-        ),
-      );
-    };
+      const App = () => {
+        const [text, setText] = useState(localStorage.getItem(LocalStorageKey.TEXT) || "");
+        const [cursorPos, setCursorPos] = useState(text.length);
+        const [darkMode, setDarkMode] = useState(localStorage.getItem(LocalStorageKey.DARK_MODE) === "true");
+        const toggleContainerRef = useRef(null);
+        const textRef = useRef(null);
 
-    render(h(App), document.getElementById("app"));
-  </script>
-</body>
+        const handleTextEvents = (event) => {
+          let newText = event.target.value;
+
+          // enables the use of tab while typing
+          // use shift + tab for default behavior
+          if (event.keyCode === EventKeyCode.TAB && !event.shiftKey) {
+            event.preventDefault();
+
+            const { selectionStart, selectionEnd } = event.target;
+            newText = newText.substring(0, selectionStart) + "\t" + newText.substring(selectionEnd);
+            setCursorPos(selectionStart + 1);
+          }
+
+          setText(newText);
+        };
+
+        const toggleDarkMode = (event) => {
+          if (event.type === "keydown" && event.keyCode !== EventKeyCode.ENTER) return;
+          setDarkMode(!darkMode);
+        };
+
+        useEffect(() => {
+          localStorage.setItem(LocalStorageKey.TEXT, text);
+        }, [text]);
+
+        useEffect(() => {
+          textRef.current.style.caretColor = "transparent";
+          textRef.current.setSelectionRange(cursorPos, cursorPos);
+          textRef.current.style.caretColor = "auto";
+        }, [cursorPos]);
+
+        useEffect(() => {
+          localStorage.setItem(LocalStorageKey.DARK_MODE, darkMode);
+          document.body.classList.toggle(DARK_MODE_CLASS, darkMode);
+          toggleContainerRef.current.classList.toggle(DARK_MODE_CLASS, darkMode);
+        }, [darkMode]);
+
+        let toggleContainerClass = "toggle-container";
+        if (darkMode) {
+          toggleContainerClass += ` ${DARK_MODE_CLASS}`;
+          document.body.classList.toggle(DARK_MODE_CLASS, true);
+        }
+
+        return h(
+          "div",
+          null,
+          h("textarea", {
+            ref: textRef,
+            value: text,
+            autofocus: true,
+            onInput: handleTextEvents,
+            onKeyDown: handleTextEvents,
+            tabindex: "1",
+            placeholder: "type here...",
+          }),
+          h(
+            "div",
+            {
+              ref: toggleContainerRef,
+              class: toggleContainerClass,
+              onClick: toggleDarkMode,
+              onKeyDown: toggleDarkMode,
+              role: "button",
+              tabindex: "2",
+            },
+            h("div", { class: "toggle-circle" }),
+            h("div", { class: "icon sun" }, "☀️"),
+            h("div", { class: "icon moon" }, "🌙")
+          )
+        );
+      };
+
+      render(h(App), document.getElementById("app"));
+    </script>
+  </body>
 </html>
