@@ -1,10 +1,11 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   transition: background-color 0.3s, color 0.3s;
 }
 textarea {
@@ -28,20 +29,32 @@ textarea {
   background-color: black;
   color: white;
 }
+.options-menu {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 25px;
+  width: 80px;
+  padding: 0px 0px 20px 20px;
+  gap: 8px;
+  opacity: 0.33;
+  transition: opacity 0.3s;
+  border-radius: 25px;
+}
+.options-menu:hover,
+.options-menu:has(*:focus) {
+  opacity: 1;
+}
 .toggle-container {
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 50px;
   height: 25px;
+  width: 50px;
   border-radius: 25px;
   background-color: #ffc100;
+  transition: background-color 0.3s;
   cursor: pointer;
-  transition: background-color 0.3s, opacity 0.3s;
-  opacity: 0.33;
-}
-.toggle-container:hover, .toggle-container:focus {
-  opacity: 1;
 }
 .toggle-circle {
   position: absolute;
@@ -69,6 +82,7 @@ textarea {
   transition: opacity 0.3s;
   opacity: 1;
   user-select: none;
+  cursor: pointer;
 }
 .icon.sun {
   left: 2px;
@@ -82,4 +96,7 @@ textarea {
 }
 .toggle-container.dark-mode .icon.moon {
   opacity: 1;
+}
+.icon.dl {
+  top: 5.5px;
 }

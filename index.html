@@ -29,10 +29,18 @@
         static TEXT = "text";
       }
 
+      const genTextFileUrl = (content) => {
+        const blob = new Blob([content], { type: "text/plain" });
+        return window.URL.createObjectURL(blob);
+      };
+
+      const isNonEnterKeydownEvent = (event) => event.type === "keydown" && event.keyCode !== EventKeyCode.ENTER;
+
       const App = () => {
         const [text, setText] = useState(localStorage.getItem(LocalStorageKey.TEXT) || "");
         const [cursorPos, setCursorPos] = useState(text.length);
         const [darkMode, setDarkMode] = useState(localStorage.getItem(LocalStorageKey.DARK_MODE) === "true");
+        const [textFileUrl, setTextFileUrl] = useState(null);
         const toggleContainerRef = useRef(null);
         const textRef = useRef(null);
 
@@ -52,13 +60,36 @@
           setText(newText);
         };
 
+        const handleDownload = (event) => {
+          if (isNonEnterKeydownEvent(event)) return;
+
+          let href = textFileUrl;
+          if (!href) {
+            href = genTextFileUrl(text);
+            setTextFileUrl(href);
+          }
+
+          const a = document.createElement("a");
+          a.setAttribute("href", href);
+          a.setAttribute("download", "typehere.txt");
+          a.style.display = "none";
+
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        };
+
         const toggleDarkMode = (event) => {
-          if (event.type === "keydown" && event.keyCode !== EventKeyCode.ENTER) return;
+          if (isNonEnterKeydownEvent(event)) return;
           setDarkMode(!darkMode);
         };
 
         useEffect(() => {
           localStorage.setItem(LocalStorageKey.TEXT, text);
+          if (textFileUrl) {
+            window.URL.revokeObjectURL(textFileUrl);
+            setTextFileUrl(null);
+          }
         }, [text]);
 
         useEffect(() => {
@@ -79,6 +110,7 @@
           document.body.classList.toggle(DARK_MODE_CLASS, true);
         }
 
+        let tabIndex = 0;
         return h(
           "div",
           null,
@@ -88,22 +120,39 @@
             autofocus: true,
             onInput: handleTextEvents,
             onKeyDown: handleTextEvents,
-            tabindex: "1",
+            tabIndex: tabIndex++,
             placeholder: "type here...",
           }),
           h(
             "div",
-            {
-              ref: toggleContainerRef,
-              class: toggleContainerClass,
-              onClick: toggleDarkMode,
-              onKeyDown: toggleDarkMode,
-              role: "button",
-              tabindex: "2",
-            },
-            h("div", { class: "toggle-circle" }),
-            h("div", { class: "icon sun" }, "☀️"),
-            h("div", { class: "icon moon" }, "🌙")
+            { class: "options-menu" },
+            h(
+              "div",
+              {
+                class: "icon dl",
+                onClick: handleDownload,
+                onKeyDown: handleDownload,
+                role: "button",
+                tabIndex: tabIndex++,
+                title: "Save as .txt file",
+              },
+              "💾"
+            ),
+            h(
+              "div",
+              {
+                ref: toggleContainerRef,
+                class: toggleContainerClass,
+                onClick: toggleDarkMode,
+                onKeyDown: toggleDarkMode,
+                role: "button",
+                tabIndex: tabIndex++,
+                title: "Toggle light/dark mode",
+              },
+              h("div", { class: "toggle-circle" }),
+              h("div", { class: "icon sun" }, "☀️"),
+              h("div", { class: "icon moon" }, "🌙")
+            )
           )
         );
       };
