@@ -82,6 +82,7 @@
         const toggleDarkMode = (event) => {
           if (isNonEnterKeydownEvent(event)) return;
           setDarkMode(!darkMode);
+          if (textRef.current) textRef.current.focus();
         };
 
         useEffect(() => {
